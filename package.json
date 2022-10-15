@@ -3,7 +3,7 @@
   "version": "1.0.0",
   "description": "Learn Advance NodeJS For Full Stack Development.",
   "main": "AsyncAwait.js",
-  "type": "module",
+  "type": "commonjs",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1"
   },
@@ -17,5 +17,8 @@
   "bugs": {
     "url": "https://github.com/asifmuntasir/7-days-nodejs-challenge/issues"
   },
-  "homepage": "https://github.com/asifmuntasir/7-days-nodejs-challenge#readme"
+  "homepage": "https://github.com/asifmuntasir/7-days-nodejs-challenge#readme",
+  "devDependencies": {
+    "nodemon": "^2.0.20"
+  }
 }
