@@ -5,6 +5,7 @@
   "main": "AsyncAwait.js",
   "type": "commonjs",
   "scripts": {
+    "start": "nodemon FileSystem.js",
     "test": "echo \"Error: no test specified\" && exit 1"
   },
   "repository": {
