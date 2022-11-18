@@ -10,15 +10,15 @@ app.get('/', (req, res) => {
     res.send('Hello ICC as Indian Cricket Council');
 });
 
-app.get('/userLists', (req, res) => {
+const userLists = (req, res) => {
     db3.getUserLists()
         .then(data => {
             res.send(data);
             console.log(data);
         });
-});
+}
 
-app.post('/userLists', (req, res) => {
+const insertUser = (req, res) => {
     const newUser = req.body;
     db3.getUserLists()
         .then(users => {
@@ -26,9 +26,9 @@ app.post('/userLists', (req, res) => {
             db3.insertUser(users)
                 .then(data => res.send(data))
         });
-});
+}
 
-app.get('/userLists/:id', (req, res) => {
+const userDetails = (req, res) => {
     const id = parseInt(req.params.id);
     // const id = req.params;
     // console.log(id);
@@ -38,9 +38,9 @@ app.get('/userLists/:id', (req, res) => {
             if (!user) res.status(400).send('User not Found');
             else res.send(user);
         });
-});
+}
 
-app.put('/userLists/:id', (req, res) => {
+const updateUser = (req, res) => {
     const id = parseInt(req.params.id);
     const updateUser = req.body;
     db3.getUserLists()
@@ -54,9 +54,9 @@ app.put('/userLists/:id', (req, res) => {
                     .then(msg => res.send(updateUser));
             }
         });
-});
+}
 
-app.delete('/userLists/:id', (req, res) => {
+const deleteUser = (req, res) => {
     const id = parseInt(req.params.id);
     db3.getUserLists()
         .then(users => {
@@ -69,7 +69,17 @@ app.delete('/userLists/:id', (req, res) => {
                     .then(msg => res.send(user));
             }
         });
-});
+}
+
+app.get('/userLists', userLists);
+
+app.post('/userLists', insertUser);
+
+app.get('/userLists/:id', userDetails);
+
+app.put('/userLists/:id', updateUser);
+
+app.delete('/userLists/:id', deleteUser);
 
 app.listen(app.get('port'), () => {
     console.log('Server no 3 running on port', app.get('port'));
