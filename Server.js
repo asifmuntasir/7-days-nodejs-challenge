@@ -1,40 +1,54 @@
 const http = require('http');
-// const { stringify } = require('querystring');
-const PORT = 1702;
+const fs = require('fs');
 
-const server = http.createServer((req, res) => {
-    // res.end('Hello Node');
-    // console.log(req.url);
-    const url = req.url;
-    if (req.url == '/') {
-        res.writeHead(200, { 'Content-type': 'text/html' });
-        res.write(`<p>This is home page</p>`);
+
+const PORT = 3000;
+
+http.createServer((req, res) => {
+    if (req.url === '/') {
+        res.writeHead(200, { 'Conent-Type': 'text/html' });
+        res.write('<h1>Welcome to Full Stack Development</h1>');
         res.end();
+    } else if (req.url === '/read') {
+        fs.readFile('first.txt', (err, data) => {
+            if (err) {
+                res.write('Failed to load data!');
+                res.end();
+            } else {
+                res.write(data);
+                res.end();
+            }
+        });
+    } else if (req.url === '/write') {
+        fs.writeFile('second.txt', 'I am a pull stack developer!!! 😄', (err) => {
+            if (err) {
+                res.write('Failed to write data');
+                res.end();
+            } else {
+                res.write('Data successfully added');
+                res.end();
+            }
+        });
+    } else if (req.url === '/append') {
+        fs.appendFile('first.txt', 'No! It will be full not pull ! 😑', (err,) => {
+            if (err) {
+                res.write('Falied to append data');
+                res.end();
+            } else {
+                res.write('Data successfully updated!');
+                res.end();
+            }
+        })
+    } else if (req.url === '/delete') {
+        fs.unlink('second.txt', (err) => {
+            if (err) throw err;
+            console.log('File deleted successfully!');
+        })
     }
-    else if (req.url == '/contact') {
-        res.writeHead(200, { 'Content-type': 'text/html' });
-        res.write(`<p>This is ${req.url} page</p>`);
-        res.end();
-    }
-    else if (req.url == '/user') {
-        res.writeHead(200, { 'Content-type': 'application/json' });
-        res.write(JSON.stringify({
-            name: 'Siba',
-            age: 25
-        }));
-        res.end();
-    }
-    // else if (req.url == url) {
-    //     res.writeHead(200, { 'Content-type': 'text/html' });
-    //     res.write(`<p>This is ${req.url} page</p>`);
-    //     res.end();
-    // }
-});
+}).listen(PORT);
 
-server.listen(PORT);
+console.log('Server running on port ', PORT);
 
-// server.listen(() => {
-//     console.log(`Server running on port ${PORT}`)
-// }, PORT);
-
-console.log(`Server running on port ${PORT}`);
+// res.writeHead(200, { 'Content-Type': 'text/plain' });
+// res.write('Hello Node');
+// res.end();
