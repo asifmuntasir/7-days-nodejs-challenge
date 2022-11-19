@@ -71,15 +71,24 @@ const deleteUser = (req, res) => {
         });
 }
 
-app.get('/userLists', userLists);
+// app.get('/userLists', userLists);
 
-app.post('/userLists', insertUser);
+// app.post('/userLists', insertUser);
 
-app.get('/userLists/:id', userDetails);
+// app.get('/userLists/:id', userDetails);
 
-app.put('/userLists/:id', updateUser);
+// app.put('/userLists/:id', updateUser);
 
-app.delete('/userLists/:id', deleteUser);
+// app.delete('/userLists/:id', deleteUser);
+
+app.route('/userLists')
+    .get(userLists)
+    .post(insertUser);
+
+app.route('/userLists/:id')
+    .get(userDetails)
+    .put(updateUser)
+    .delete(deleteUser);
 
 app.listen(app.get('port'), () => {
     console.log('Server no 3 running on port', app.get('port'));
