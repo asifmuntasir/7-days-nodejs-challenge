@@ -1,36 +1,31 @@
 const express = require('express');
 const router = express.Router();
 const { authUser } = require('../models/authUser');
+const bcrypt = require('bcrypt');
+const jwt = require('jsonwebtoken');
 
-// check user by email
-const insertUser = async (req, res) => {
-    let newUser = await authUser.findOne({ email: req.body.email });
-    if (newUser) return res.status(400).send('User already exists');
 
-    newUser = new authUser({
-        name: req.body.name,
-        email: req.body.email,
-        password: req.body.password
+const authenticateUser = async (req, res) => {
+    let user = await authUser.findOne({
+        email: req.body.email
     });
 
-    try {
-        const result = await newUser.save();
-        res.send({
-            name: result.name,
-            email: result.email
-        });
-    } catch (error) {
-        const msg = [];
-        for (field in error.errors) {
-            msg.push(error.errors[field].message);
-        }
-        // console.log(error);
-        return res.status(400).send(msg);
-    }
+    if (!user) return res.status(400).send('Invalid email OR password');
+
+    const validUser = await bcrypt.compare(req.body.password, user.password);
+    if (!validUser) return res.status(400).send('Invalid email OR password');
+
+    const token = await jwt.sign({
+        _id: user._id,
+        email: user.email
+    }, 'secretKEY');
+
+    res.send(token);
+    console.log(token.decoded);
 }
 
 
 router.route('/')
-    .post(insertUser);
+    .post(authenticateUser);
 
 module.exports = router;

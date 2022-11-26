@@ -8,7 +8,7 @@ module.exports = connect = async () => {
             useNewUrlParser: true,
             // useFindAndModify: false,
         });
-        console.log('Connection Created...!');
+        console.log('MongoDB Connection Created...!');
     } catch (error) {
         console.log(error);
     }

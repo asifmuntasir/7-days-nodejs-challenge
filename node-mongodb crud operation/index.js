@@ -16,9 +16,10 @@ app.get('/', (req, res) => {
     res.send('Hello MongoDB!');
 });
 
-app.use('/userList', userRoute);
+// app.use('/userList', userRoute);
 
-app.use('/authUserList', authRoute);
+app.use('/authUserList', userRoute);
+app.use('/auth', authRoute);
 
 app.listen(app.get('port'), () => {
     console.log('Server running on port', app.get('port'));
