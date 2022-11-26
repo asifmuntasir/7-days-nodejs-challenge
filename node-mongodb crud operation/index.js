@@ -1,6 +1,7 @@
 const express = require('express');
 const app = express();
 const userRoute = require('./routers/userRouter');
+const authRoute = require('./routers/authRoute');
 const connect = require('./config/db');
 
 require('dotenv').config();
@@ -16,6 +17,8 @@ app.get('/', (req, res) => {
 });
 
 app.use('/userList', userRoute);
+
+app.use('/authUserList', authRoute);
 
 app.listen(app.get('port'), () => {
     console.log('Server running on port', app.get('port'));
